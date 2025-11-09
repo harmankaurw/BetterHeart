@@ -1,0 +1,17 @@
+#Arduino code
+const int HUMIDITY_ANALOG_PIN = A0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int raw = analogRead(HUMIDITY_ANALOG_PIN);        // 0–1023
+  float humidityPercent = (raw / 1023.0) * 100.0;   // 0–100 approx
+
+  Serial.println(humidityPercent);  // ONLY the number + newline
+  delay(200);
+}
+
+
+
