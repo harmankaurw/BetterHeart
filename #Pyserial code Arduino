@@ -1,0 +1,53 @@
+import serial
+import time
+
+PORT = "COM7"
+BAUD = 9600
+
+
+def main():
+    ser = serial.Serial(PORT, BAUD, timeout=1)
+    time.sleep(2)
+
+    print(f"Connected to {PORT} at {BAUD} baud.")
+    print("Reading live values from Arduino (Ctrl+C to stop)...\n")
+
+    start_time = time.time()
+
+    hum_min = 0.0
+    hum_max = 100.0
+    target_min = -1.5
+    target_max = 1.1
+
+    try:
+        while True:
+            line = ser.readline().decode("utf-8", errors="ignore").strip()
+            if not line:
+                continue
+
+            try:
+                value = float(line)
+            except ValueError:
+                continue
+
+            t_rel = time.time() - start_time
+
+            norm = (value - hum_min) / (hum_max - hum_min)
+            scaled_value = target_min + norm * (target_max - target_min)
+
+            print(
+                f"t = {t_rel:7.3f} s | raw = {value:6.2f} | scaled = {scaled_value:7.3f}"
+            )
+
+    except KeyboardInterrupt:
+        print("\nStopped by user.")
+    finally:
+        ser.close()
+        print("Serial port closed.")
+
+
+if __name__ == "__main__":
+    main()
+
+
+
