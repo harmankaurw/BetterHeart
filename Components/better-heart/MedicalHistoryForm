@@ -1,0 +1,131 @@
+import React from 'react';
+import { AlertCircle, Info } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+
+export default function MedicalHistoryForm({ formData, handleChange }) {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <div className="flex justify-center mb-6">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-orange-400 rounded-full blur-xl opacity-50 animate-pulse"></div>
+            <AlertCircle className="w-16 h-16 md:w-20 md:h-20 text-rose-600 relative" />
+          </div>
+        </div>
+        <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-rose-600 to-orange-600 bg-clip-text text-transparent mb-3">
+          Medical History
+        </h2>
+        <p className="text-gray-600">Critical risk factors for assessment</p>
+      </div>
+
+      <div className="space-y-6 max-w-2xl mx-auto px-4">
+        <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6">
+          <label className="flex items-start gap-4 cursor-pointer">
+            <Checkbox
+              checked={formData.familyHistory}
+              onCheckedChange={(checked) => handleChange('familyHistory', checked)}
+              className="mt-1"
+            />
+            <div className="flex-1">
+              <div className="font-semibold text-gray-800 text-base md:text-lg mb-2 flex items-center gap-2">
+                Family History of CVD
+                <div className="group relative">
+                  <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                  <div className="invisible group-hover:visible absolute z-10 w-80 p-3 bg-gray-800 text-white text-xs rounded-lg -top-2 left-6">
+                    <strong>Genetic Risk Factor:</strong><br/>
+                    First-degree relative with premature CVD increases your risk by 60-75%:<br/>
+                    • Father/brother: Heart attack before age 55<br/>
+                    • Mother/sister: Heart attack before age 65
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600 mb-2">
+                Parent, sibling, or grandparent with early heart disease, heart attack, or stroke
+              </p>
+              
+              {formData.familyHistory && (
+                <Input
+                  type="text"
+                  value={formData.familyHistoryDetails}
+                  onChange={(e) => handleChange('familyHistoryDetails', e.target.value)}
+                  className="mt-3"
+                  placeholder="Optional: Specify (e.g., father had heart attack at age 52)"
+                />
+              )}
+            </div>
+          </label>
+        </div>
+
+        <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
+          <h3 className="text-base md:text-lg font-bold text-gray-800 mb-4">Current Medical Conditions</h3>
+          <p className="text-sm text-gray-600 mb-4">Select all that apply - these significantly impact your risk assessment</p>
+          
+          <label className="flex items-start gap-4 cursor-pointer p-4 bg-white rounded-xl hover:shadow-md transition border-2 border-gray-200">
+            <Checkbox
+              checked={formData.hypertension}
+              onCheckedChange={(checked) => handleChange('hypertension', checked)}
+              className="mt-1"
+            />
+            <div className="flex-1">
+              <div className="font-semibold text-gray-800 mb-1 flex items-center gap-2">
+                Hypertension (High Blood Pressure)
+                <div className="group relative">
+                  <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                  <div className="invisible group-hover:visible absolute z-10 w-72 p-3 bg-gray-800 text-white text-xs rounded-lg -top-2 left-6">
+                    <strong>Triples CVD Risk</strong><br/>
+                    High BP damages arterial walls, leading to atherosclerosis.
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600">Blood pressure consistently ≥140/90 mmHg</p>
+            </div>
+          </label>
+
+          <label className="flex items-start gap-4 cursor-pointer p-4 bg-white rounded-xl hover:shadow-md transition border-2 border-gray-200">
+            <Checkbox
+              checked={formData.diabetes}
+              onCheckedChange={(checked) => handleChange('diabetes', checked)}
+              className="mt-1"
+            />
+            <div className="flex-1">
+              <div className="font-semibold text-gray-800 mb-1 flex items-center gap-2">
+                Diabetes Mellitus
+                <div className="group relative">
+                  <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                  <div className="invisible group-hover:visible absolute z-10 w-72 p-3 bg-gray-800 text-white text-xs rounded-lg -top-2 left-6">
+                    <strong>2-4x Increased Risk</strong><br/>
+                    Accelerates arterial damage through hyperglycemia and inflammation.
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600">Type 1, Type 2, or gestational diabetes</p>
+            </div>
+          </label>
+
+          <label className="flex items-start gap-4 cursor-pointer p-4 bg-white rounded-xl hover:shadow-md transition border-2 border-gray-200">
+            <Checkbox
+              checked={formData.dyslipidemia}
+              onCheckedChange={(checked) => handleChange('dyslipidemia', checked)}
+              className="mt-1"
+            />
+            <div className="flex-1">
+              <div className="font-semibold text-gray-800 mb-1 flex items-center gap-2">
+                Dyslipidemia (Abnormal Cholesterol)
+                <div className="group relative">
+                  <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                  <div className="invisible group-hover:visible absolute z-10 w-72 p-3 bg-gray-800 text-white text-xs rounded-lg -top-2 left-6">
+                    <strong>50% Increased Risk</strong><br/>
+                    LDL cholesterol builds up in arteries, causing plaque formation.
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600">High LDL, low HDL, or high triglycerides</p>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+}

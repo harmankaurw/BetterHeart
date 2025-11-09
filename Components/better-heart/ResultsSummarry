@@ -1,0 +1,172 @@
+import React, { useState } from 'react';
+import { Activity, HeartPulse, AlertCircle, Heart, User, ChevronRight } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import ResultDetailView from './ResultDetailView';
+
+export default function ResultsSummary({ formData, results }) {
+  const [selectedDetailView, setSelectedDetailView] = useState(null);
+
+  const getBMIColors = (category) => {
+    switch (category) {
+      case 'Underweight':
+        return { color: 'text-cyan-600', bg: 'bg-gradient-to-br from-cyan-50 to-blue-50' };
+      case 'Normal weight':
+        return { color: 'text-emerald-600', bg: 'bg-gradient-to-br from-emerald-50 to-green-50' };
+      case 'Overweight':
+        return { color: 'text-amber-600', bg: 'bg-gradient-to-br from-amber-50 to-yellow-50' };
+      default:
+        return { color: 'text-rose-600', bg: 'bg-gradient-to-br from-rose-50 to-red-50' };
+    }
+  };
+
+  const getRiskColor = (risk) => {
+    if (risk === 'Low') return { text: 'text-emerald-600', bg: 'bg-gradient-to-br from-emerald-50 to-green-50' };
+    if (risk === 'Moderate') return { text: 'text-amber-600', bg: 'bg-gradient-to-br from-amber-50 to-yellow-50' };
+    return { text: 'text-rose-600', bg: 'bg-gradient-to-br from-rose-50 to-red-50' };
+  };
+
+  if (selectedDetailView) {
+    return (
+      <ResultDetailView
+        view={selectedDetailView}
+        formData={formData}
+        results={results}
+        onBack={() => setSelectedDetailView(null)}
+      />
+    );
+  }
+
+  const bmiColors = getBMIColors(results.bmiCategory);
+  const cvRiskColors = getRiskColor(results.riskLevel);
+  const sleepRiskColors = getRiskColor(results.sleepApneaRisk);
+  const heartRiskColors = getRiskColor(results.heartAttackRisk);
+
+  return (
+    <div className="space-y-6 px-4">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-3">
+          Your Health Summary
+        </h2>
+        <p className="text-gray-600 text-lg md:text-xl">{formData.name}</p>
+        <p className="text-sm text-gray-500 mt-2">Click on any card to learn more</p>
+      </div>
+      
+      <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+        <button
+          onClick={() => setSelectedDetailView('bmi')}
+          className={`${bmiColors.bg} rounded-3xl p-6 shadow-lg border-2 transform hover:scale-105 transition text-left cursor-pointer`}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Activity className="w-6 h-6 md:w-7 md:h-7 text-blue-600" />
+              <h3 className="text-lg md:text-xl font-bold text-gray-800">BMI Analysis</h3>
+            </div>
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-400" />
+          </div>
+          <div className="text-4xl md:text-5xl font-black text-blue-600 mb-2">{results.bmi}</div>
+          <div className={`text-lg md:text-xl font-semibold ${bmiColors.color}`}>{results.bmiCategory}</div>
+        </button>
+        
+        <button
+          onClick={() => setSelectedDetailView('cv')}
+          className={`${cvRiskColors.bg} rounded-3xl p-6 shadow-lg border-2 transform hover:scale-105 transition text-left cursor-pointer`}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <HeartPulse className="w-6 h-6 md:w-7 md:h-7 text-rose-600" />
+              <h3 className="text-lg md:text-xl font-bold text-gray-800">CV Risk</h3>
+            </div>
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-400" />
+          </div>
+          <div className={`text-4xl md:text-5xl font-black ${cvRiskColors.text} mb-2`}>{results.riskLevel}</div>
+          <div className="text-sm text-gray-600 font-medium">Cardiovascular risk level</div>
+        </button>
+      </div>
+      
+      <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+        <button
+          onClick={() => setSelectedDetailView('sleep')}
+          className={`${sleepRiskColors.bg} rounded-3xl p-6 shadow-lg border-2 transform hover:scale-105 transition text-left cursor-pointer`}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <AlertCircle className="w-6 h-6 md:w-7 md:h-7 text-indigo-600" />
+              <h3 className="text-lg md:text-xl font-bold text-gray-800">Sleep Apnea Risk</h3>
+            </div>
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-400" />
+          </div>
+          <div className={`text-4xl md:text-5xl font-black ${sleepRiskColors.text} mb-2`}>{results.sleepApneaRisk}</div>
+          <div className="text-sm text-gray-600 font-medium">Risk of obstructive sleep apnea</div>
+        </button>
+        
+        <button
+          onClick={() => setSelectedDetailView('heart')}
+          className={`${heartRiskColors.bg} rounded-3xl p-6 shadow-lg border-2 transform hover:scale-105 transition text-left cursor-pointer`}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Heart className="w-6 h-6 md:w-7 md:h-7 text-rose-600" />
+              <h3 className="text-lg md:text-xl font-bold text-gray-800">Heart Attack Risk</h3>
+            </div>
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-400" />
+          </div>
+          <div className={`text-4xl md:text-5xl font-black ${heartRiskColors.text} mb-2`}>{results.heartAttackRisk}</div>
+          <div className="text-sm text-gray-600 font-medium">10-year cardiovascular event risk</div>
+        </button>
+      </div>
+
+      <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl p-6 shadow-lg border-2 border-indigo-200">
+        <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <User className="w-5 h-5 md:w-6 md:h-6 text-indigo-600" />
+          Your Health Profile
+        </h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-white/70 rounded-xl p-3">
+            <span className="text-xs font-medium text-gray-500 uppercase">Age</span>
+            <div className="text-base md:text-lg font-semibold text-gray-800">{formData.age} years</div>
+          </div>
+          <div className="bg-white/70 rounded-xl p-3">
+            <span className="text-xs font-medium text-gray-500 uppercase">Gender</span>
+            <div className="text-base md:text-lg font-semibold text-gray-800">{formData.gender}</div>
+          </div>
+          <div className="bg-white/70 rounded-xl p-3">
+            <span className="text-xs font-medium text-gray-500 uppercase">Height</span>
+            <div className="text-base md:text-lg font-semibold text-gray-800">{formData.height} cm</div>
+          </div>
+          <div className="bg-white/70 rounded-xl p-3">
+            <span className="text-xs font-medium text-gray-500 uppercase">Weight</span>
+            <div className="text-base md:text-lg font-semibold text-gray-800">{formData.weight} kg</div>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-6 shadow-lg border-2 border-gray-200">
+        <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-5">Current Health Conditions</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+          <div className="flex items-center gap-3 bg-white/70 rounded-xl p-3">
+            <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full ${formData.familyHistory ? 'bg-gradient-to-r from-red-500 to-rose-500' : 'bg-gray-300'} shadow-md flex-shrink-0`}></div>
+            <span className="text-xs md:text-sm font-medium text-gray-700">Family History (CVD)</span>
+          </div>
+          <div className="flex items-center gap-3 bg-white/70 rounded-xl p-3">
+            <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full ${formData.diabetes ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gray-300'} shadow-md flex-shrink-0`}></div>
+            <span className="text-xs md:text-sm font-medium text-gray-700">Diabetes</span>
+          </div>
+          <div className="flex items-center gap-3 bg-white/70 rounded-xl p-3">
+            <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full ${formData.hypertension ? 'bg-gradient-to-r from-purple-500 to-pink-500' : 'bg-gray-300'} shadow-md flex-shrink-0`}></div>
+            <span className="text-xs md:text-sm font-medium text-gray-700">Hypertension</span>
+          </div>
+          <div className="flex items-center gap-3 bg-white/70 rounded-xl p-3">
+            <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full ${formData.dyslipidemia ? 'bg-gradient-to-r from-amber-500 to-orange-500' : 'bg-gray-300'} shadow-md flex-shrink-0`}></div>
+            <span className="text-xs md:text-sm font-medium text-gray-700">Dyslipidemia</span>
+          </div>
+        </div>
+      </Card>
+      
+      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-500 rounded-2xl p-5 shadow-md">
+        <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
+          <strong className="text-amber-700">Medical Disclaimer:</strong> This assessment is for informational and educational purposes only. It does not constitute medical advice, diagnosis, or treatment. Always consult with qualified healthcare professionals for personalized medical guidance.
+        </p>
+      </div>
+    </div>
+  );
+}

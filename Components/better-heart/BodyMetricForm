@@ -1,0 +1,116 @@
+import React from 'react';
+import { Activity, Info } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const ethnicities = [
+  'Asian',
+  'Black/African American',
+  'Hispanic/Latino',
+  'White/Caucasian',
+  'Native American/Alaska Native',
+  'Pacific Islander',
+  'Mixed',
+  'Other',
+  'Prefer not to say'
+];
+
+export default function BodyMetricsForm({ formData, handleChange }) {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <div className="flex justify-center mb-6">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full blur-xl opacity-50 animate-pulse"></div>
+            <Activity className="w-16 h-16 md:w-20 md:h-20 text-blue-600 relative" />
+          </div>
+        </div>
+        <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-3">
+          Body Metrics
+        </h2>
+        <p className="text-gray-600">For BMI calculation and risk stratification</p>
+      </div>
+
+      <div className="space-y-6 max-w-2xl mx-auto px-4">
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <Label className="flex items-center gap-2 mb-3">
+              Height (cm) *
+              <div className="group relative">
+                <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                <div className="invisible group-hover:visible absolute z-10 w-72 p-3 bg-gray-800 text-white text-xs rounded-lg -top-2 left-6">
+                  <strong>BMI Calculation:</strong><br/>
+                  Height is used with weight to calculate Body Mass Index, a key predictor of cardiovascular disease risk.
+                </div>
+              </div>
+            </Label>
+            <Input
+              type="number"
+              value={formData.height}
+              onChange={(e) => handleChange('height', e.target.value)}
+              step="0.1"
+              min="50"
+              max="250"
+              className="h-12 text-lg"
+              placeholder="e.g., 170"
+            />
+          </div>
+
+          <div>
+            <Label className="flex items-center gap-2 mb-3">
+              Weight (kg) *
+              <div className="group relative">
+                <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                <div className="invisible group-hover:visible absolute z-10 w-72 p-3 bg-gray-800 text-white text-xs rounded-lg -top-2 left-6">
+                  <strong>Weight and CVD Risk:</strong><br/>
+                  • BMI 25-29.9: 30% increased risk<br/>
+                  • BMI 30+: 100% increased risk<br/>
+                  • BMI 35+: 300% increased risk
+                </div>
+              </div>
+            </Label>
+            <Input
+              type="number"
+              value={formData.weight}
+              onChange={(e) => handleChange('weight', e.target.value)}
+              step="0.1"
+              min="20"
+              max="300"
+              className="h-12 text-lg"
+              placeholder="e.g., 70"
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label className="flex items-center gap-2 mb-3">
+            Ethnicity/Race (Optional)
+            <div className="group relative">
+              <Info className="w-4 h-4 text-gray-400 cursor-help" />
+              <div className="invisible group-hover:visible absolute z-10 w-72 p-3 bg-gray-800 text-white text-xs rounded-lg -top-2 left-6">
+                <strong>Ethnic Variations in CVD Risk:</strong><br/>
+                • African Americans: Higher hypertension rates<br/>
+                • South Asians: Higher diabetes prevalence<br/>
+                • Hispanics: Increased metabolic syndrome risk
+              </div>
+            </div>
+          </Label>
+          <Select
+            value={formData.ethnicity}
+            onValueChange={(value) => handleChange('ethnicity', value)}
+          >
+            <SelectTrigger className="h-12 text-lg">
+              <SelectValue placeholder="Select ethnicity (optional)" />
+            </SelectTrigger>
+            <SelectContent>
+              {ethnicities.map(e => (
+                <SelectItem key={e} value={e}>{e}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+    </div>
+  );
+}

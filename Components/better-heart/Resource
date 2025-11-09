@@ -1,0 +1,92 @@
+import React from 'react';
+import { BookOpen, Heart, Activity, AlertCircle, AlertTriangle, HeartPulse } from 'lucide-react';
+
+export default function ResourcesPage() {
+  return (
+    <div className="space-y-8 px-4">
+      <div className="text-center mb-8">
+        <div className="flex justify-center mb-6">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-violet-400 to-purple-400 rounded-full blur-xl opacity-50 animate-pulse"></div>
+            <BookOpen className="w-16 h-16 md:w-20 md:h-20 text-violet-600 relative" />
+          </div>
+        </div>
+        <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-3">
+          Additional Resources
+        </h2>
+        <p className="text-gray-600">Evidence-based information to improve your heart health</p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
+        <div className="bg-gradient-to-br from-rose-50 to-pink-50 border-2 border-rose-200 rounded-2xl p-6 hover:shadow-xl transition">
+          <Heart className="w-8 h-8 md:w-10 md:h-10 text-rose-500 mb-4" />
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3">Understanding CVD Risk</h3>
+          <p className="text-sm md:text-base text-gray-700 mb-4">
+            Learn about cardiovascular disease risk factors, prevention strategies, and lifestyle modifications that can improve heart health.
+          </p>
+          <ul className="space-y-2 text-xs md:text-sm text-gray-600">
+            <li>• Age and gender as non-modifiable risk factors</li>
+            <li>• Family history and genetic predisposition</li>
+            <li>• Managing chronic conditions effectively</li>
+            <li>• Evidence-based lifestyle interventions</li>
+          </ul>
+        </div>
+
+        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-2xl p-6 hover:shadow-xl transition">
+          <Activity className="w-8 h-8 md:w-10 md:h-10 text-blue-500 mb-4" />
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3">BMI and Heart Health</h3>
+          <p className="text-sm md:text-base text-gray-700 mb-4">
+            Understand how body mass index affects cardiovascular health and what you can do to maintain a healthy weight.
+          </p>
+          <ul className="space-y-2 text-xs md:text-sm text-gray-600">
+            <li>• BMI categories and associated risks</li>
+            <li>• Weight loss strategies for CVD prevention</li>
+            <li>• Mediterranean diet and heart health</li>
+            <li>• Exercise recommendations for cardioprotection</li>
+          </ul>
+        </div>
+
+        <div className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-2xl p-6 hover:shadow-xl transition">
+          <AlertCircle className="w-8 h-8 md:w-10 md:h-10 text-indigo-500 mb-4" />
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3">Sleep Apnea Awareness</h3>
+          <p className="text-sm md:text-base text-gray-700 mb-4">
+            Discover the connection between sleep apnea and cardiovascular health, symptoms to watch for, and treatment options.
+          </p>
+          <ul className="space-y-2 text-xs md:text-sm text-gray-600">
+            <li>• Recognizing sleep apnea symptoms</li>
+            <li>• CVD risk from untreated sleep apnea</li>
+            <li>• Polysomnography and diagnostic procedures</li>
+            <li>• CPAP therapy and alternative treatments</li>
+          </ul>
+        </div>
+
+        <div className="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200 rounded-2xl p-6 hover:shadow-xl transition">
+          <AlertTriangle className="w-8 h-8 md:w-10 md:h-10 text-amber-500 mb-4" />
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3">Prevention Strategies</h3>
+          <p className="text-sm md:text-base text-gray-700 mb-4">
+            Evidence-based strategies to reduce your cardiovascular risk and improve overall heart health through lifestyle changes.
+          </p>
+          <ul className="space-y-2 text-xs md:text-sm text-gray-600">
+            <li>• DASH diet for hypertension management</li>
+            <li>• Physical activity: 150 min/week moderate exercise</li>
+            <li>• Stress reduction and mindfulness techniques</li>
+            <li>• Medication adherence and regular monitoring</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-2xl p-6">
+        <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <HeartPulse className="w-5 h-5 md:w-6 md:h-6 text-emerald-600" />
+          Next Steps
+        </h3>
+        <div className="space-y-3 text-sm md:text-base text-gray-700">
+          <p><strong>1. Share with your doctor:</strong> Bring these results to your next medical appointment for professional evaluation and guidance.</p>
+          <p><strong>2. Track your progress:</strong> Retake this assessment periodically to monitor changes in your risk factors over time.</p>
+          <p><strong>3. Take action:</strong> Implement lifestyle changes recommended for your specific risk level.</p>
+          <p><strong>4. Stay informed:</strong> Continue learning about heart health, prevention strategies, and emerging research.</p>
+        </div>
+      </div>
+    </div>
+  );
+}

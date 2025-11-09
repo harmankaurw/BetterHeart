@@ -1,0 +1,82 @@
+{
+  "name": "HealthAssessment",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Full name of the person assessed"
+    },
+    "age": {
+      "type": "number",
+      "description": "Age in years"
+    },
+    "height": {
+      "type": "number",
+      "description": "Height in centimeters"
+    },
+    "weight": {
+      "type": "number",
+      "description": "Weight in kilograms"
+    },
+    "ethnicity": {
+      "type": "string",
+      "description": "Ethnicity or race"
+    },
+    "gender": {
+      "type": "string",
+      "description": "Gender"
+    },
+    "family_history": {
+      "type": "boolean",
+      "description": "Family history of cardiovascular disease"
+    },
+    "family_history_details": {
+      "type": "string",
+      "description": "Details about family history"
+    },
+    "diabetes": {
+      "type": "boolean",
+      "description": "Has diabetes"
+    },
+    "hypertension": {
+      "type": "boolean",
+      "description": "Has hypertension"
+    },
+    "dyslipidemia": {
+      "type": "boolean",
+      "description": "Has dyslipidemia"
+    },
+    "bmi": {
+      "type": "number",
+      "description": "Calculated BMI"
+    },
+    "bmi_category": {
+      "type": "string",
+      "description": "BMI category (Underweight, Normal, Overweight, Obese)"
+    },
+    "cv_risk_level": {
+      "type": "string",
+      "description": "Cardiovascular risk level (Low, Moderate, High)"
+    },
+    "sleep_apnea_risk": {
+      "type": "string",
+      "description": "Sleep apnea risk level"
+    },
+    "heart_attack_risk": {
+      "type": "string",
+      "description": "Heart attack risk level"
+    },
+    "assessment_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time of assessment"
+    }
+  },
+  "required": [
+    "name",
+    "age",
+    "height",
+    "weight",
+    "gender"
+  ]
+}

@@ -1,0 +1,96 @@
+import React from 'react';
+import { User, Info } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const genders = ['Male', 'Female', 'Other', 'Prefer not to say'];
+
+export default function PersonalInfoForm({ formData, handleChange }) {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <div className="flex justify-center mb-6">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full blur-xl opacity-50 animate-pulse"></div>
+            <User className="w-16 h-16 md:w-20 md:h-20 text-purple-600 relative" />
+          </div>
+        </div>
+        <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
+          Personal Information
+        </h2>
+        <p className="text-gray-600">Basic demographics for risk assessment</p>
+      </div>
+
+      <div className="space-y-6 max-w-2xl mx-auto px-4">
+        <div>
+          <Label className="flex items-center gap-2 mb-3">
+            Full Name *
+          </Label>
+          <Input
+            type="text"
+            value={formData.name}
+            onChange={(e) => handleChange('name', e.target.value)}
+            className="h-12 text-lg"
+            placeholder="Enter your full name"
+            autoFocus
+          />
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <Label className="flex items-center gap-2 mb-3">
+              Age (years) *
+              <div className="group relative">
+                <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                <div className="invisible group-hover:visible absolute z-10 w-72 p-3 bg-gray-800 text-white text-xs rounded-lg -top-2 left-6">
+                  <strong>Risk increases with age:</strong><br/>
+                  • Men ≥45: Risk increases by 50%<br/>
+                  • Women ≥55: Risk increases by 40%<br/>
+                  • Age 65+: Risk doubles every decade
+                </div>
+              </div>
+            </Label>
+            <Input
+              type="number"
+              value={formData.age}
+              onChange={(e) => handleChange('age', e.target.value)}
+              min="1"
+              max="120"
+              className="h-12 text-lg"
+              placeholder="Your age"
+            />
+          </div>
+
+          <div>
+            <Label className="flex items-center gap-2 mb-3">
+              Sex/Gender *
+              <div className="group relative">
+                <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                <div className="invisible group-hover:visible absolute z-10 w-72 p-3 bg-gray-800 text-white text-xs rounded-lg -top-2 left-6">
+                  <strong>Gender differences in CVD:</strong><br/>
+                  • Men: Higher baseline risk starting at 45<br/>
+                  • Women: Protected until menopause (~55)<br/>
+                  • Post-menopause: Risk equalizes
+                </div>
+              </div>
+            </Label>
+            <Select
+              value={formData.gender}
+              onValueChange={(value) => handleChange('gender', value)}
+            >
+              <SelectTrigger className="h-12 text-lg">
+                <SelectValue placeholder="Select gender" />
+              </SelectTrigger>
+              <SelectContent>
+                {genders.map(g => (
+                  <SelectItem key={g} value={g}>{g}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,241 @@
+import React from 'react';
+import { ChevronLeft, AlertCircle, Heart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+export default function ResultDetailView({ view, formData, results, onBack }) {
+  const getBMIColors = (category) => {
+    switch (category) {
+      case 'Underweight':
+        return { color: 'text-cyan-600', bg: 'bg-gradient-to-br from-cyan-50 to-blue-50' };
+      case 'Normal weight':
+        return { color: 'text-emerald-600', bg: 'bg-gradient-to-br from-emerald-50 to-green-50' };
+      case 'Overweight':
+        return { color: 'text-amber-600', bg: 'bg-gradient-to-br from-amber-50 to-yellow-50' };
+      default:
+        return { color: 'text-rose-600', bg: 'bg-gradient-to-br from-rose-50 to-red-50' };
+    }
+  };
+
+  const getRiskColor = (risk) => {
+    if (risk === 'Low') return { text: 'text-emerald-600', bg: 'bg-gradient-to-br from-emerald-50 to-green-50' };
+    if (risk === 'Moderate') return { text: 'text-amber-600', bg: 'bg-gradient-to-br from-amber-50 to-yellow-50' };
+    return { text: 'text-rose-600', bg: 'bg-gradient-to-br from-rose-50 to-red-50' };
+  };
+
+  if (view === 'bmi') {
+    const bmiColors = getBMIColors(results.bmiCategory);
+    return (
+      <div className="space-y-6 px-4">
+        <Button onClick={onBack} variant="ghost" className="gap-2 mb-4">
+          <ChevronLeft className="w-5 h-5" />
+          Back to Summary
+        </Button>
+        
+        <div className={`${bmiColors.bg} rounded-3xl p-6 md:p-8 shadow-xl border-2`}>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">BMI Analysis Details</h2>
+          <div className="text-5xl md:text-6xl font-black text-blue-600 mb-4">{results.bmi}</div>
+          <div className={`text-xl md:text-2xl font-semibold ${bmiColors.color} mb-6`}>{results.bmiCategory}</div>
+          
+          <div className="bg-white/70 rounded-2xl p-4 md:p-6 space-y-4">
+            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4">What This Means:</h3>
+            <div className="space-y-3 text-sm md:text-base text-gray-700">
+              <p><strong>BMI Categories and CVD Risk:</strong></p>
+              <ul className="list-disc ml-6 space-y-2">
+                <li><strong>18.5-24.9 (Normal):</strong> Baseline cardiovascular risk</li>
+                <li><strong>25-29.9 (Overweight):</strong> 30% increased CVD risk</li>
+                <li><strong>30-34.9 (Obese Class I):</strong> 100% increased risk (doubles)</li>
+                <li><strong>35+ (Obese Class II/III):</strong> 300% increased risk</li>
+              </ul>
+              <p className="mt-4"><strong>Why BMI Matters:</strong></p>
+              <p>Excess body weight increases strain on the heart, raises blood pressure, promotes inflammation, and affects cholesterol levels - all major contributors to cardiovascular disease.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (view === 'cv') {
+    const cvRiskColors = getRiskColor(results.riskLevel);
+    return (
+      <div className="space-y-6 px-4">
+        <Button onClick={onBack} variant="ghost" className="gap-2 mb-4">
+          <ChevronLeft className="w-5 h-5" />
+          Back to Summary
+        </Button>
+        
+        <div className={`${cvRiskColors.bg} rounded-3xl p-6 md:p-8 shadow-xl border-2`}>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Cardiovascular Risk Details</h2>
+          <div className={`text-5xl md:text-6xl font-black ${cvRiskColors.text} mb-4`}>{results.riskLevel}</div>
+          
+          <div className="bg-white/70 rounded-2xl p-4 md:p-6 space-y-4">
+            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4">Your Risk Factors:</h3>
+            <div className="space-y-3 text-sm md:text-base">
+              {formData.age >= 65 && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                  <span>Age ≥65: Significantly elevated risk</span>
+                </div>
+              )}
+              {formData.gender === 'Male' && formData.age >= 45 && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                  <span>Male ≥45: Increased baseline risk</span>
+                </div>
+              )}
+              {formData.gender === 'Female' && formData.age >= 55 && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                  <span>Female ≥55: Post-menopausal risk increase</span>
+                </div>
+              )}
+              {results.bmi >= 30 && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                  <span>Obesity (BMI ≥30): Doubles CVD risk</span>
+                </div>
+              )}
+              {formData.familyHistory && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                  <span>Family history: 60-75% increased risk</span>
+                </div>
+              )}
+              {formData.hypertension && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                  <span>Hypertension: Triples CVD risk</span>
+                </div>
+              )}
+              {formData.diabetes && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                  <span>Diabetes: 2-4x increased risk</span>
+                </div>
+              )}
+              {formData.dyslipidemia && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                  <span>Dyslipidemia: 50% increased risk</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (view === 'sleep') {
+    const sleepRiskColors = getRiskColor(results.sleepApneaRisk);
+    return (
+      <div className="space-y-6 px-4">
+        <Button onClick={onBack} variant="ghost" className="gap-2 mb-4">
+          <ChevronLeft className="w-5 h-5" />
+          Back to Summary
+        </Button>
+        
+        <div className={`${sleepRiskColors.bg} rounded-3xl p-6 md:p-8 shadow-xl border-2`}>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Sleep Apnea Risk Details</h2>
+          <div className={`text-5xl md:text-6xl font-black ${sleepRiskColors.text} mb-4`}>{results.sleepApneaRisk}</div>
+          
+          <div className="bg-white/70 rounded-2xl p-4 md:p-6 space-y-4">
+            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4">Understanding Sleep Apnea:</h3>
+            <p className="text-sm md:text-base text-gray-700 mb-4">
+              Sleep apnea is a serious sleep disorder where breathing repeatedly stops and starts. Untreated sleep apnea increases CVD risk by 200%.
+            </p>
+            
+            <h4 className="font-bold text-gray-800 mt-4">Symptoms to Watch For:</h4>
+            <ul className="list-disc ml-6 space-y-2 text-sm md:text-base text-gray-700">
+              <li>Loud snoring</li>
+              <li>Gasping for air during sleep</li>
+              <li>Morning headaches</li>
+              <li>Excessive daytime sleepiness</li>
+              <li>Difficulty concentrating</li>
+            </ul>
+            
+            <h4 className="font-bold text-gray-800 mt-4">Your Risk Factors:</h4>
+            <div className="space-y-2 text-sm md:text-base">
+              {results.bmi >= 30 && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <span>High BMI significantly increases risk</span>
+                </div>
+              )}
+              {formData.gender === 'Male' && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <span>Males at higher baseline risk</span>
+                </div>
+              )}
+              {formData.hypertension && (
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <span>Hypertension linked to sleep apnea</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (view === 'heart') {
+    const heartRiskColors = getRiskColor(results.heartAttackRisk);
+    return (
+      <div className="space-y-6 px-4">
+        <Button onClick={onBack} variant="ghost" className="gap-2 mb-4">
+          <ChevronLeft className="w-5 h-5" />
+          Back to Summary
+        </Button>
+        
+        <div className={`${heartRiskColors.bg} rounded-3xl p-6 md:p-8 shadow-xl border-2`}>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Heart Attack Risk Details</h2>
+          <div className={`text-5xl md:text-6xl font-black ${heartRiskColors.text} mb-4`}>{results.heartAttackRisk}</div>
+          <p className="text-base md:text-lg text-gray-700 mb-6">10-year cardiovascular event risk</p>
+          
+          <div className="bg-white/70 rounded-2xl p-4 md:p-6 space-y-4">
+            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4">Risk Assessment Breakdown:</h3>
+            <p className="text-sm md:text-base text-gray-700 mb-4">
+              This score predicts your likelihood of experiencing a major cardiovascular event (heart attack, stroke) in the next 10 years.
+            </p>
+            
+            <h4 className="font-bold text-gray-800 mt-4">Primary Risk Factors:</h4>
+            <ul className="space-y-2 text-sm md:text-base text-gray-700">
+              <li className="flex items-start gap-3">
+                <Heart className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                <span><strong>Age:</strong> Risk increases exponentially after 45 (men) and 55 (women)</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Heart className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                <span><strong>Family History:</strong> Strongest predictor - increases risk by up to 75%</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Heart className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                <span><strong>Chronic Conditions:</strong> Hypertension, diabetes, and dyslipidemia compound risk</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Heart className="w-5 h-5 text-rose-500 mt-0.5 flex-shrink-0" />
+                <span><strong>BMI:</strong> Obesity significantly accelerates arterial damage</span>
+              </li>
+            </ul>
+            
+            <div className="mt-6 p-4 bg-rose-50 rounded-xl border border-rose-200">
+              <h4 className="font-bold text-rose-800 mb-2">Recommended Actions:</h4>
+              <ul className="text-xs md:text-sm text-gray-700 space-y-1">
+                <li>• Schedule comprehensive cardiac evaluation</li>
+                <li>• Monitor blood pressure regularly</li>
+                <li>• Optimize cholesterol management</li>
+                <li>• Implement lifestyle modifications</li>
+                <li>• Consider preventive medications if indicated</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
